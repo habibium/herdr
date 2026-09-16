@@ -826,3 +826,38 @@ fn resize_mode_reuses_endpoint_resize_and_stays_active_until_done() {
     assert!(state.handle_input_bytes(b"\r").actions.is_empty());
     assert_eq!(state.mode, ClientShellMode::Terminal);
 }
+
+fn navigator_shell(config: &Config) -> ClientShellState {
+    let mut state = ClientShellState::new(ClientShellConfig::from_config(config));
+    state.set_snapshot(Box::new(snapshot()));
+    state.set_pane_surface(surface());
+    state.compose(106, 30).expect("composed frame");
+    state.open_navigator_overlay();
+    state
+}
+
+#[test]
+fn navigator_opens_on_the_list_without_navigator_focus_search() {
+    let state = navigator_shell(&Config::default());
+
+    let Some(ClientShellOverlay::Navigator(navigator)) = state.overlay.as_ref() else {
+        panic!("navigator overlay");
+    };
+    assert!(!navigator.search_focused);
+    assert!(navigator.query.as_str().is_empty());
+}
+
+#[test]
+fn navigator_focus_search_opens_the_navigator_in_search_mode() {
+    let mut config = Config::default();
+    config.ui.navigator_focus_search = true;
+    let mut state = navigator_shell(&config);
+
+    state.handle_input_bytes(b"a");
+
+    let Some(ClientShellOverlay::Navigator(navigator)) = state.overlay.as_ref() else {
+        panic!("navigator overlay");
+    };
+    assert!(navigator.search_focused);
+    assert_eq!(navigator.query.as_str(), "a");
+}

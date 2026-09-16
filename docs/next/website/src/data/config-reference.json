@@ -953,6 +953,12 @@
           "description": "Ask for a workspace name before interactive TUI creation."
         },
         {
+          "key": "ui.navigator_focus_search",
+          "type": "boolean",
+          "default": "false",
+          "description": "Open the session navigator with its search field already focused."
+        },
+        {
           "key": "ui.pane_borders",
           "type": "enum",
           "default": "\"auto\"",
