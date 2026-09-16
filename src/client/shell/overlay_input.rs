@@ -201,7 +201,7 @@ impl ClientShellState {
                 .collect();
         let mut navigator = ClientNavigatorOverlay {
             query: TextEditor::default(),
-            search_focused: false,
+            search_focused: self.config.navigator_focus_search,
             selected: None,
             scroll: 0,
             filter: None,
