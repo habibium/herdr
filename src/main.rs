@@ -291,6 +291,10 @@ const DEFAULT_CONFIG: &str = r##"# herdr configuration
 # Ask for a workspace name before interactive creation.
 # prompt_new_workspace_name = false
 
+# Open the session navigator with its search field already focused.
+# Set true to start typing a filter without pressing / first.
+# navigator_focus_search = false
+
 # Draw borders around split panes.
 # "auto" draws them only for split panes, "always" also frames a lone pane
 # (only while pane_outer_borders is enabled), "off" disables them.
